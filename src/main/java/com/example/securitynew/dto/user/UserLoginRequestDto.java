@@ -13,4 +13,5 @@ public record UserLoginRequestDto(
         @Size(min = 6, max = 20)
         String password
 ) {
+
 }

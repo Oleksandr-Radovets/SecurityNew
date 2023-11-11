@@ -7,5 +7,4 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface BookRepository extends JpaRepository<Book, Long>,
         JpaSpecificationExecutor<Book>, PagingAndSortingRepository<Book, Long> {
-
 }

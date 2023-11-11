@@ -19,4 +19,5 @@ public class BookSpecificationProviderManager implements SpecificationProviderMa
                         new RuntimeException("Can't find correct specification provider for key "
                                 + key));
     }
+
 }

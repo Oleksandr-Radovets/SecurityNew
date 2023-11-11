@@ -17,4 +17,5 @@ public class UserRegistrationRequestDto {
     @NotBlank
     @Size(min = 6, max = 100)
     private String repeatPassword;
+
 }

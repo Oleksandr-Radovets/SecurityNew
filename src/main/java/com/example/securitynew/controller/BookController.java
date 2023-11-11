@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class BookController {
+
     private final BookService bookService;
 
     @PostMapping("/book")

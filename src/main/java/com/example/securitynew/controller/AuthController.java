@@ -35,4 +35,5 @@ public class AuthController {
             throws RegistrationException {
         return userService.register(userRegistrationRequestDto);
     }
+
 }
