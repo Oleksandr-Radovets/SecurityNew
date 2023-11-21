@@ -1,30 +1,32 @@
 package com.example.securitynew.service.impl;
 
 import com.example.securitynew.dto.book.BookDto;
-import com.example.securitynew.dto.book.BookSearchParameterDto;
 import com.example.securitynew.dto.book.CreateBookRequestDto;
 import com.example.securitynew.mapper.BookMapper;
 import com.example.securitynew.model.Book;
 import com.example.securitynew.repository.BookRepository;
-import com.example.securitynew.repository.criteria.book.BookSpecificationBuilder;
 import com.example.securitynew.service.BookService;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService {
 
-    private final BookRepository bookRepository;
-    private final BookMapper bookMapper;
-    private BookSpecificationBuilder builder;
+    private BookRepository bookRepository;
+    private BookMapper bookMapper;
+
+    public BookServiceImpl(BookRepository bookRepository, BookMapper bookMapper) {
+        this.bookRepository = bookRepository;
+        this.bookMapper = bookMapper;
+    }
 
     @Override
     public BookDto createBook(CreateBookRequestDto bookRequestDto) {
-        return bookMapper.toDto(bookRepository.save(bookMapper.toModel(bookRequestDto)));
+        Book save = bookRepository.save(bookMapper.toModel(bookRequestDto));
+        return bookMapper.toDto(save);
     }
 
     @Override
@@ -47,13 +49,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> search(BookSearchParameterDto bookSearchParameterDto) {
-        Specification<Book> build = builder.build(bookSearchParameterDto);
-        return bookRepository.findAll(build).stream()
-                .map(bookMapper::toDto).toList();
-    }
-
-    @Override
     public void updateById(Long id, CreateBookRequestDto createBookRequestDto) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Can't find book " + id));
@@ -61,5 +56,4 @@ public class BookServiceImpl implements BookService {
         book1.setId(id);
         bookRepository.save(book1);
     }
-
 }

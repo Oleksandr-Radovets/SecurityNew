@@ -1,7 +1,6 @@
 package com.example.securitynew.controller;
 
 import com.example.securitynew.dto.book.BookDto;
-import com.example.securitynew.dto.book.BookSearchParameterDto;
 import com.example.securitynew.dto.book.CreateBookRequestDto;
 import com.example.securitynew.service.BookService;
 import jakarta.validation.Valid;
@@ -25,17 +24,17 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping("/book")
-    BookDto createBook(@RequestBody @Valid CreateBookRequestDto requestDto) {
+    public BookDto createBook(@RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.createBook(requestDto);
     }
 
     @GetMapping("/books")
-    List<BookDto> bookAll() {
+    public List<BookDto> bookAll() {
         return bookService.bookAll();
     }
 
     @GetMapping("book/{id}")
-    BookDto getBookById(@PathVariable Long id) {
+    public BookDto getBookById(@PathVariable Long id) {
         return bookService.findById(id);
     }
 
@@ -52,8 +51,4 @@ public class BookController {
 
     }
 
-    @GetMapping("/search")
-    public List<BookDto> search(BookSearchParameterDto bookSearchParameterDto) {
-        return bookService.search(bookSearchParameterDto);
-    }
 }
