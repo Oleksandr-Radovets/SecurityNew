@@ -1,7 +1,6 @@
 package com.example.securitynew.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -22,13 +21,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
-
     private UserDetailsService userDetailsService;
-
-    @Autowired
-    public SecurityConfig(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
@@ -46,6 +39,8 @@ public class SecurityConfig {
                                         "api/auth/login")
                                 .permitAll()
                                 .requestMatchers("/swagger-ui/**")
+                                .permitAll()
+                                .requestMatchers("/error/**")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
