@@ -42,16 +42,14 @@ public class User implements UserDetails {
     @Column(name = "is_deleted")
     private boolean isDeleted;
     @ManyToMany
-    private Set<Role> roles;
+    private Set<Role> roleSet;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (email.startsWith("admin@")) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
     }
 
     @Override

@@ -2,10 +2,8 @@ package com.example.securitynew.repository;
 
 import com.example.securitynew.model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface BookRepository extends JpaRepository<Book, Long>,
-        JpaSpecificationExecutor<Book>, PagingAndSortingRepository<Book, Long> {
+public interface BookRepository extends JpaRepository<Book, Long> {
 
+    Book save(Book book);
 }
