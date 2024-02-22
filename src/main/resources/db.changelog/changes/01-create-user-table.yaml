@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user-table
+      author: sasha
+      changes:
+        - createTable:
+          tableName: users
+          columns:
+            - column:
+              name: id
+              type: bigint
+              autoIncrement: true
+              nullable: false
+            - column:
+                name: firstname
+                type: varchar(255)
+            - column:
+                name: lastname
+                type: varchar(255)
+            - column:
+                name: password
+                type: varchar(255)
+            - column:
+                name: shippingAddress
+                type: varchar(255)
+                constraints:
+                  unique: true
+            - column:
+                name: is_deleted
+                type: boolean
+                defaultValueBoolean: false
+                constraints:
+                  nullable: false
+
+#              private String password;
+#              @NotNull
+#              private String firstName;
+#              @NotNull
+#              private String lastName;
+#              private String shippingAddress;
+#              @Column(name = "is_deleted")
+#              private boolean isDeleted;
+#              @ManyToMany
+#              private Set<Role> roleSet;
