@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class UserRegistrationRequestDto {
-
     @NotBlank
     @Size(min = 5, max = 50)
     private String email;

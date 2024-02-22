@@ -8,8 +8,14 @@ import com.example.securitynew.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
@@ -24,12 +30,14 @@ public class CategoryController {
     public CategoryResponseDto createCategory(@RequestBody CreateCategoryRequestDto categoryRequestDto){
         return categoryService.save(categoryRequestDto);
     }
+
     @Operation(summary = "get all Category", description = "get all Category")
     @PreAuthorize("has_Role('ROLE_USER')")
     @GetMapping("/getAllCategory")
     List<CategoryResponseDto> getAllCategory() {
         return categoryService.findAll();
     }
+
     @Operation(summary = "get Category by id", description = "get Category by id")
     @PreAuthorize("has_Role('ROLE_USER')")
     @GetMapping("/categoryById/{id}")
