@@ -1,6 +1,6 @@
 package com.example.securitynew.service.impl;
 
-import com.example.securitynew.dto.book.BookDto;
+import com.example.securitynew.dto.book.BookResponseDto;
 import com.example.securitynew.dto.book.CreateBookRequestDto;
 import com.example.securitynew.mapper.BookMapper;
 import com.example.securitynew.model.Book;
@@ -24,13 +24,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto createBook(CreateBookRequestDto bookRequestDto) {
-        Book save = bookRepository.save(bookMapper.toModel(bookRequestDto));
+    public BookResponseDto createBook(CreateBookRequestDto bookRequestDto) {
+        Book save = bookRepository.save(bookMapper.toEntity(bookRequestDto));
         return bookMapper.toDto(save);
     }
 
     @Override
-    public List<BookDto> bookAll() {
+    public List<BookResponseDto> bookAll() {
         return bookRepository.findAll()
                 .stream()
                 .map(bookMapper::toDto)
@@ -38,7 +38,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto findById(Long id) {
+    public BookResponseDto findById(Long id) {
         return bookMapper.toDto(bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find book by id" + id)));
     }
@@ -49,10 +49,18 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<BookResponseDto> findAllByCategoryId(Long categoryId) {
+        return bookRepository.findAllByCategoryId(categoryId)
+                .stream()
+                .map(bookMapper::toDto)
+                .toList();
+    }
+
+    @Override
     public void updateById(Long id, CreateBookRequestDto createBookRequestDto) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Can't find book " + id));
-        Book book1 = bookMapper.toModel(createBookRequestDto);
+        Book book1 = bookMapper.toEntity(createBookRequestDto);
         book1.setId(id);
         bookRepository.save(book1);
     }

@@ -1,20 +1,20 @@
 package com.example.securitynew.service;
 
-import com.example.securitynew.dto.book.BookDto;
+import com.example.securitynew.dto.book.BookResponseDto;
 import com.example.securitynew.dto.book.CreateBookRequestDto;
 import java.util.List;
 
 public interface BookService {
 
-    BookDto createBook(CreateBookRequestDto bookRequestDto);
+    BookResponseDto createBook(CreateBookRequestDto bookRequestDto);
 
-    List<BookDto> bookAll();
+    List<BookResponseDto> bookAll();
 
-    BookDto findById(Long id);
+    BookResponseDto findById(Long id);
 
     void updateById(Long id, CreateBookRequestDto createBookRequestDto);
 
     void delete(Long id);
 
-    List<BookDto> findAllByCategoryId(Long categoryId);
+    List<BookResponseDto> findAllByCategoryId(Long categoryId);
 }

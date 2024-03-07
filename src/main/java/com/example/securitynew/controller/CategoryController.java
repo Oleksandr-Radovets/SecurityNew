@@ -2,7 +2,7 @@ package com.example.securitynew.controller;
 
 import com.example.securitynew.dto.Category.CategoryResponseDto;
 import com.example.securitynew.dto.Category.CreateCategoryRequestDto;
-import com.example.securitynew.dto.book.BookDto;
+import com.example.securitynew.dto.book.BookResponseDto;
 import com.example.securitynew.service.BookService;
 import com.example.securitynew.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -61,7 +61,7 @@ public class CategoryController {
     @Operation(summary = "get Book by Category id", description = "get Book by Category id")
     @PreAuthorize("has_Role('ROLE_USER')")
     @GetMapping("/allBookByCategory/{id}")
-    public List<BookDto> getBooksByCategoryId(@PathVariable Long id) {
+    public List<BookResponseDto> getBooksByCategoryId(@PathVariable Long id) {
     return bookService.findAllByCategoryId(id);
     }
 }
