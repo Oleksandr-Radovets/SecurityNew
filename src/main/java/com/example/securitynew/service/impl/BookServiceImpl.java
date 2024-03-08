@@ -1,6 +1,6 @@
 package com.example.securitynew.service.impl;
 
-import com.example.securitynew.dto.book.BookResponseDto;
+import com.example.securitynew.dto.book.BookDto;
 import com.example.securitynew.dto.book.CreateBookRequestDto;
 import com.example.securitynew.mapper.BookMapper;
 import com.example.securitynew.model.Book;
@@ -24,13 +24,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookResponseDto createBook(CreateBookRequestDto bookRequestDto) {
+    public BookDto createBook(CreateBookRequestDto bookRequestDto) {
         Book save = bookRepository.save(bookMapper.toEntity(bookRequestDto));
         return bookMapper.toDto(save);
     }
 
     @Override
-    public List<BookResponseDto> bookAll() {
+    public List<BookDto> bookAll() {
         return bookRepository.findAll()
                 .stream()
                 .map(bookMapper::toDto)
@@ -38,7 +38,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookResponseDto findById(Long id) {
+    public BookDto findById(Long id) {
         return bookMapper.toDto(bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find book by id" + id)));
     }
@@ -49,7 +49,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookResponseDto> findAllByCategoryId(Long categoryId) {
+    public List<BookDto> findAllByCategoryId(Long categoryId) {
         return bookRepository.findAllByCategoryId(categoryId)
                 .stream()
                 .map(bookMapper::toDto)

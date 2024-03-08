@@ -28,8 +28,8 @@ public class CartItem {
     private ShoppingCart shoppingCart;
     @OneToOne
     @JoinTable(name = "cartItem_books",
-    joinColumns = @JoinColumn(name = "cart_item_id"),
-    inverseJoinColumns = @JoinColumn(name = "book_id"))
+            joinColumns = @JoinColumn(name = "cart_item_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
     private Book book;
     private int quantity;
 

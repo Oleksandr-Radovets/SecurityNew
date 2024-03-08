@@ -1,6 +1,6 @@
 package com.example.securitynew.service.impl;
 
-import com.example.securitynew.dto.shoppingCart.ShoppingCartResponseDto;
+import com.example.securitynew.dto.shoppingcart.ShoppingCartResponseDto;
 import com.example.securitynew.mapper.BookMapper;
 import com.example.securitynew.mapper.ShoppingCartMapper;
 import com.example.securitynew.model.CartItem;
@@ -11,10 +11,10 @@ import com.example.securitynew.repository.CartItemRepository;
 import com.example.securitynew.repository.ShoppingCartRepository;
 import com.example.securitynew.repository.UserRepository;
 import com.example.securitynew.service.ShoppingCartService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -26,41 +26,33 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private ShoppingCartRepository shoppingCartRepository;
     private ShoppingCartMapper shoppingCartMapper;
 
+    @Transactional
     public void addBookShoppingCart(Long idBook, int quantity) {
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(name).get();
-        ShoppingCart byUserId = shoppingCartRepository.findByUserId(user.getId());
-        CartItem cartItem;
-        if (byUserId != null) {
-            cartItem = new CartItem();
-            cartItem.setBook(bookRepository.findById(idBook).get());
-            cartItem.setQuantity(quantity);
-            CartItem saveCartItem = cartItemRepository.save(cartItem);
-            byUserId.setCartItemSet(Set.of(saveCartItem));
-        } else {
-            cartItem = new CartItem();
-            cartItem.setBook(bookRepository.findById(idBook).get());
-            cartItem.setQuantity(quantity);
-            ShoppingCart shoppingCart = new ShoppingCart();
-            shoppingCart.setUser(user);
-            shoppingCart.getCartItemSet()
-                    .add(cartItemRepository
-                            .save(cartItem));
-            shoppingCartRepository.save(shoppingCart);
-        }
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email).get();
+        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(user.getId())
+                .orElseGet(() -> creatShoppingCart(user));
+        CartItem cartItem = new CartItem();
+        cartItem.setBook(bookRepository.findById(idBook).get());
+        cartItem.setQuantity(quantity);
+        shoppingCart.getCartItemSet().add(cartItemRepository.save(cartItem));
+        shoppingCartRepository.save(shoppingCart);
+    }
+
+    private ShoppingCart creatShoppingCart(User user) {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(user);
+        return shoppingCart;
     }
 
     public ShoppingCartResponseDto getShoppingCartUser(Long id) {
-        return shoppingCartMapper.toDto(shoppingCartRepository.findByUserId(id));
+        return shoppingCartMapper.toDto(shoppingCartRepository.findByUserId(id).get());
     }
 
     public ShoppingCartResponseDto update(Long idCartItem, int quantity) {
-        String name = SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getName();
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(name).get();
-        ShoppingCart byUserId = shoppingCartRepository.findByUserId(user.getId());
+        ShoppingCart byUserId = shoppingCartRepository.findByUserId(user.getId()).get();
         CartItem cartItem = cartItemRepository.findById(idCartItem).get();
         cartItem.setQuantity(quantity);
         cartItemRepository.save(cartItem);

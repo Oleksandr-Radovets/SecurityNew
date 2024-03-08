@@ -1,6 +1,6 @@
 package com.example.securitynew.controller;
 
-import com.example.securitynew.dto.book.BookResponseDto;
+import com.example.securitynew.dto.book.BookDto;
 import com.example.securitynew.dto.book.CreateBookRequestDto;
 import com.example.securitynew.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,21 +34,21 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "create book", description = "create book")
     @PostMapping("/book")
-    public BookResponseDto createBook(@RequestBody @Valid CreateBookRequestDto requestDto) {
+    public BookDto createBook(@RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.createBook(requestDto);
     }
 
     @PreAuthorize("hasRole('USER')")
     @Operation(summary = "get all books", description = "get all books")
     @GetMapping("/books")
-    public List<BookResponseDto> bookAll() {
+    public List<BookDto> bookAll() {
         return bookService.bookAll();
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "find book by id", description = "find book by id")
     @GetMapping("book/{id}")
-    public BookResponseDto getBookById(@PathVariable Long id) {
+    public BookDto getBookById(@PathVariable Long id) {
         return bookService.findById(id);
     }
 
