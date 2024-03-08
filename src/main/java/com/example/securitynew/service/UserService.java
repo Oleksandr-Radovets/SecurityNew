@@ -6,6 +6,7 @@ import com.example.securitynew.exception.RegistrationException;
 
 public interface UserService {
 
-    UserResponseDto register(UserRegistrationRequestDto userRegistrationRequestDto)
+    UserResponseDto registerUser(UserRegistrationRequestDto userRegistrationRequestDto)
             throws RegistrationException;
+
 }
