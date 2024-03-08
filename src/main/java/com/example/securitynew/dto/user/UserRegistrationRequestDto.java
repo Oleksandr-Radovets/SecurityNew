@@ -1,14 +1,10 @@
 package com.example.securitynew.dto.user;
 
-import com.example.securitynew.validator.PasswordMatch;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@PasswordMatch(password = "password", repeatPassword = "repeatPassword")
+@Data
 public class UserRegistrationRequestDto {
 
     @NotBlank
