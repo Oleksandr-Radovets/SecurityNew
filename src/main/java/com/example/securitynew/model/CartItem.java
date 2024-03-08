@@ -1,6 +1,5 @@
 package com.example.securitynew.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,8 +18,7 @@ import lombok.Setter;
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cart_item_id")
-    private Long idCartItem;
+    private Long id;
     @OneToOne
     @JoinTable(name = "cartItem_shoppingCart",
             joinColumns = @JoinColumn(name = "cart_item_id"),

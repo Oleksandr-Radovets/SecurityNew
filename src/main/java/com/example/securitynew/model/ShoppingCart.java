@@ -1,7 +1,6 @@
 package com.example.securitynew.model;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -20,12 +19,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "shoppingCart")
+@Table(name = "shopping_cart")
 public class ShoppingCart {
     @Id
-    @Column(name = "shoppingCart_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idShoppingCart;
+    private Long id;
     @OneToOne
     @JoinTable(name = "shoppingCart_users", joinColumns = @JoinColumn(name = "shoppingCart_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
@@ -33,5 +31,5 @@ public class ShoppingCart {
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JoinTable(name = "shoppingCart_cartItems", joinColumns = @JoinColumn(name = "shoppingCart_id"),
             inverseJoinColumns = @JoinColumn(name = "cartItems_id"))
-    private Set<CartItem> cartItemSet = new HashSet<>();
+    private Set<CartItem> cartItems = new HashSet<>();
 }

@@ -31,15 +31,15 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(email).get();
         ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(user.getId())
-                .orElseGet(() -> creatShoppingCart(user));
+                .orElseGet(() -> createShoppingCart(user));
         CartItem cartItem = new CartItem();
         cartItem.setBook(bookRepository.findById(idBook).get());
         cartItem.setQuantity(quantity);
-        shoppingCart.getCartItemSet().add(cartItemRepository.save(cartItem));
+        shoppingCart.getCartItems().add(cartItemRepository.save(cartItem));
         shoppingCartRepository.save(shoppingCart);
     }
 
-    private ShoppingCart creatShoppingCart(User user) {
+    private ShoppingCart createShoppingCart(User user) {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(user);
         return shoppingCart;
