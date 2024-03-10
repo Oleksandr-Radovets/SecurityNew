@@ -8,6 +8,7 @@ import com.example.securitynew.mapper.UserMapper;
 import com.example.securitynew.model.User;
 import com.example.securitynew.repository.UserRepository;
 import com.example.securitynew.service.UserService;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,5 +39,10 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UsernameNotFoundException("your password is incorrect"));
         return passwordEncoder.matches(requestLoginDto.getPassword(),
                 user.getPassword());
+    }
+
+    @Override
+    public Optional<User> findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

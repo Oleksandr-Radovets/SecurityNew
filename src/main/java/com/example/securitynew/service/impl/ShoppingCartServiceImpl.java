@@ -6,36 +6,41 @@ import com.example.securitynew.mapper.ShoppingCartMapper;
 import com.example.securitynew.model.CartItem;
 import com.example.securitynew.model.ShoppingCart;
 import com.example.securitynew.model.User;
-import com.example.securitynew.repository.BookRepository;
-import com.example.securitynew.repository.CartItemRepository;
 import com.example.securitynew.repository.ShoppingCartRepository;
 import com.example.securitynew.repository.UserRepository;
+import com.example.securitynew.service.BookService;
+import com.example.securitynew.service.CartItemService;
 import com.example.securitynew.service.ShoppingCartService;
+import com.example.securitynew.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
-    private BookRepository bookRepository;
+    private BookService bookService;
     private BookMapper bookMapper;
-    private CartItemRepository cartItemRepository;
+    private CartItemService cartItemService;
     private UserRepository userRepository;
     private ShoppingCartRepository shoppingCartRepository;
     private ShoppingCartMapper shoppingCartMapper;
+    private UserService userService;
 
     @Transactional
     public void addBookShoppingCart(Long idBook, int quantity) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(email).get();
+        User user = userService.findUserByEmail(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("Can't find user"));
         ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(user.getId())
                 .orElseGet(() -> createShoppingCart(user));
         CartItem cartItem = new CartItem();
-        cartItem.setBook(bookRepository.findById(idBook).get());
+        cartItem.setBook(bookMapper.toModel(bookService.findById(idBook)));
         cartItem.setQuantity(quantity);
-        shoppingCart.getCartItems().add(cartItemRepository.save(cartItem));
+        shoppingCart.getCartItems().add(cartItemService.saveCartItem(cartItem));
         shoppingCartRepository.save(shoppingCart);
     }
 
@@ -51,15 +56,19 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     public ShoppingCartResponseDto update(Long idCartItem, int quantity) {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByEmail(name).get();
-        ShoppingCart byUserId = shoppingCartRepository.findByUserId(user.getId()).get();
-        CartItem cartItem = cartItemRepository.findById(idCartItem).get();
+        User user = userService.findUserByEmail(name)
+                .orElseThrow(()
+                        -> new UsernameNotFoundException("Can't find user"));
+        ShoppingCart byUserId = shoppingCartRepository.findByUserId(user.getId())
+                .orElseThrow(()
+                        -> new UsernameNotFoundException("Can't find ShoppingCart"));
+        CartItem cartItem = cartItemService.cartItemFindById(idCartItem);
         cartItem.setQuantity(quantity);
-        cartItemRepository.save(cartItem);
+        cartItemService.saveCartItem(cartItem);
         return shoppingCartMapper.toDto(byUserId);
     }
 
     public void deleteCartItemInShoppingCart(Long id) {
-        cartItemRepository.deleteById(id);
+        cartItemService.deleteCartItem(id);
     }
 }
