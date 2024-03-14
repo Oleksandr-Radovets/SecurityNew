@@ -15,11 +15,15 @@ import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE shopping_cart SET is_deleted = true WHERE id=?")
+@Where(clause = "is_deleted = false")
 @Entity
-@Table(name = "shopping_cart")
+@Table(name = "shopping_carts")
 public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,4 +36,5 @@ public class ShoppingCart {
     @JoinTable(name = "shoppingCart_cartItems", joinColumns = @JoinColumn(name = "shoppingCart_id"),
             inverseJoinColumns = @JoinColumn(name = "cartItems_id"))
     private Set<CartItem> cartItems = new HashSet<>();
+    private boolean isDeleted;
 }

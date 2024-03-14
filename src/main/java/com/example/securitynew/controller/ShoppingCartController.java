@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/cart")
 public class ShoppingCartController {
     private ShoppingCartService shoppingCartService;
 
@@ -29,14 +29,14 @@ public class ShoppingCartController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/cart")
     public void createShoppingCart(@RequestBody CartItemRequestDto cartItem) {
-        shoppingCartService.addBookShoppingCart(cartItem.getIdBook(),
+        shoppingCartService.addBookShoppingCart(cartItem.getBookId(),
                 cartItem.getQuantity());
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/cart/cart-items")
     public ShoppingCartResponseDto updateShoppingCart(@RequestBody CartItemRequestDto requestDto) {
-        return shoppingCartService.update(requestDto.getIdCartItem(), requestDto.getQuantity());
+        return shoppingCartService.update(requestDto.getCartItemId(), requestDto.getQuantity());
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
