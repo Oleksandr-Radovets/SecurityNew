@@ -1,4 +1,4 @@
-package com.example.securitynew.dto.Category;
+package com.example.securitynew.dto.category;
 
 public class CategoryResponseDto {
     private String name;
