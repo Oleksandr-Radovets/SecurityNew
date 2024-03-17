@@ -15,5 +15,4 @@ public interface OrderMapper {
     OrderResponseStatusDto toDtoStatus(Order order);
 
     OrderResponseOrderItemDto toDtoOrderItem(OrderItem orderitem);
-
 }
