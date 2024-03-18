@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 public class OrderController {
-    private OrderService orderService;
+    private final OrderService orderService;
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/order")
@@ -30,14 +30,14 @@ public class OrderController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/all")
-    public List<OrderResponseDto> allOrders() {
+    @GetMapping("/orders")
+    public List<OrderResponseDto> getOrders() {
         return orderService.allOrdersUser();
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PatchMapping("/update/{orderId}")
-    public OrderResponseStatusDto updateStatusOrderItem(@PathVariable Long orderId,
+    public OrderResponseStatusDto updateOrderItemStatus(@PathVariable Long orderId,
                                                         @RequestBody
                                                         OrderRequestDto orderRequestDto) {
         return orderService.update(orderId, orderRequestDto.getStatus());
@@ -45,14 +45,14 @@ public class OrderController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/allOrderItem/{orderId}")
-    public List<OrderResponseOrderItemDto> getAllOrderItem(@PathVariable Long orderId) {
+    public List<OrderResponseOrderItemDto> getAllOrderItems(@PathVariable Long orderId) {
         return orderService.getAllOrderItemByOrder(orderId);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/api/orders/{orderId}/items/{itemId}")
-    public OrderResponseOrderItemDto getOrderItemByIdOrder(@PathVariable Long orderId,
-                                                           @PathVariable Long orderItemId) {
-        return orderService.getOrderItem(orderId, orderItemId);
+    public OrderResponseOrderItemDto getOrderItem(@PathVariable Long orderId,
+                                                           @PathVariable Long itemId) {
+        return orderService.getOrderItem(orderId, itemId);
     }
 }
