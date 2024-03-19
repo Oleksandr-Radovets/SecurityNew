@@ -1,9 +1,10 @@
 package com.example.securitynew.controller;
 
+import com.example.securitynew.dto.order.OrderDto;
+import com.example.securitynew.dto.order.OrderItemResponseDto;
 import com.example.securitynew.dto.order.OrderRequestDto;
 import com.example.securitynew.dto.order.OrderResponseDto;
-import com.example.securitynew.dto.order.OrderResponseOrderItemDto;
-import com.example.securitynew.dto.order.OrderResponseStatusDto;
+import com.example.securitynew.dto.order.StatusResponseDto;
 import com.example.securitynew.service.OrderService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/api/orders")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @RestController
 public class OrderController {
     private final OrderService orderService;
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PostMapping("/order")
+    @PostMapping("/orders")
     public OrderResponseDto saveOrder(
             @RequestBody OrderRequestDto orderRequestDto) {
         return orderService.createOrder(orderRequestDto.getShippingAddress());
@@ -37,22 +38,22 @@ public class OrderController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PatchMapping("/update/{orderId}")
-    public OrderResponseStatusDto updateOrderItemStatus(@PathVariable Long orderId,
-                                                        @RequestBody
-                                                        OrderRequestDto orderRequestDto) {
-        return orderService.update(orderId, orderRequestDto.getStatus());
+    public StatusResponseDto updateOrderItemStatus(@PathVariable Long orderId,
+                                                   @RequestBody
+                                                   OrderDto orderDto) {
+        return orderService.update(orderId, orderDto.getStatus());
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/allOrderItem/{orderId}")
-    public List<OrderResponseOrderItemDto> getAllOrderItems(@PathVariable Long orderId) {
+    @GetMapping("/orders/{orderId}/items")
+    public List<OrderItemResponseDto> getAllOrderItems(@PathVariable Long orderId) {
         return orderService.getAllOrderItemByOrder(orderId);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/api/orders/{orderId}/items/{itemId}")
-    public OrderResponseOrderItemDto getOrderItem(@PathVariable Long orderId,
-                                                           @PathVariable Long itemId) {
+    @GetMapping("/orders/{orderId}/items/{itemId}")
+    public OrderItemResponseDto getOrderItem(@PathVariable Long orderId,
+                                             @PathVariable Long itemId) {
         return orderService.getOrderItem(orderId, itemId);
     }
 }

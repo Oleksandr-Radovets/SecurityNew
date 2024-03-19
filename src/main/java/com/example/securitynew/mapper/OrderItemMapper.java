@@ -7,5 +7,5 @@ import org.mapstruct.Mapper;
 
 @Mapper(config = MapperConfig.class)
 public interface OrderItemMapper {
-    OrderItem orderItemMapperList(CartItem cartItem);
+    OrderItem toOrderItem(CartItem cartItem);
 }

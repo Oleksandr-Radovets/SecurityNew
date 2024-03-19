@@ -20,7 +20,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public List<OrderItem> saveAll(Set<CartItem> list) {
         return orderItemRepository.saveAll(list.stream()
-                .map(orderItemMapper::orderItemMapperList)
+                .map(orderItemMapper::toOrderItem)
                 .collect(Collectors.toSet()));
     }
 }

@@ -1,8 +1,8 @@
 package com.example.securitynew.service.impl;
 
+import com.example.securitynew.dto.order.OrderItemResponseDto;
 import com.example.securitynew.dto.order.OrderResponseDto;
-import com.example.securitynew.dto.order.OrderResponseOrderItemDto;
-import com.example.securitynew.dto.order.OrderResponseStatusDto;
+import com.example.securitynew.dto.order.StatusResponseDto;
 import com.example.securitynew.dto.shoppingcart.ShoppingCartResponseDto;
 import com.example.securitynew.mapper.OrderMapper;
 import com.example.securitynew.model.Book;
@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
                 .toList();
     }
 
-    public OrderResponseStatusDto update(Long orderId, String status) {
+    public StatusResponseDto update(Long orderId, String status) {
         Order order = orderRepository.findById(orderId).orElseThrow(()
                 -> new UsernameNotFoundException("Can't find user"));
         order.setStatus(Arrays
@@ -73,8 +73,8 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.toDtoStatus(order);
     }
 
-    public List<OrderResponseOrderItemDto> getAllOrderItemByOrder(Long orderId) {
-        List<OrderResponseOrderItemDto> list = orderRepository
+    public List<OrderItemResponseDto> getAllOrderItemByOrder(Long orderId) {
+        List<OrderItemResponseDto> list = orderRepository
                 .findById(orderId)
                 .get()
                 .getOrderItemSet()
@@ -84,7 +84,7 @@ public class OrderServiceImpl implements OrderService {
         return list;
     }
 
-    public OrderResponseOrderItemDto getOrderItem(Long orderId, Long orderItemId) {
+    public OrderItemResponseDto getOrderItem(Long orderId, Long orderItemId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Can't orderItem by order id "
                         + orderId));

@@ -6,7 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OrderRequestDto {
-    private Long id;
     private String shippingAddress;
-    private String status;
 }

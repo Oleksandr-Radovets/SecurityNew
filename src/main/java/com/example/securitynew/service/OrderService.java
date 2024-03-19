@@ -1,8 +1,8 @@
 package com.example.securitynew.service;
 
+import com.example.securitynew.dto.order.OrderItemResponseDto;
 import com.example.securitynew.dto.order.OrderResponseDto;
-import com.example.securitynew.dto.order.OrderResponseOrderItemDto;
-import com.example.securitynew.dto.order.OrderResponseStatusDto;
+import com.example.securitynew.dto.order.StatusResponseDto;
 import java.util.List;
 
 public interface OrderService {
@@ -11,9 +11,9 @@ public interface OrderService {
 
     List<OrderResponseDto> allOrdersUser();
 
-    OrderResponseStatusDto update(Long orderId, String status);
+    StatusResponseDto update(Long orderId, String status);
 
-    List<OrderResponseOrderItemDto> getAllOrderItemByOrder(Long orderId);
+    List<OrderItemResponseDto> getAllOrderItemByOrder(Long orderId);
 
-    public OrderResponseOrderItemDto getOrderItem(Long orderId, Long orderItemId);
+    public OrderItemResponseDto getOrderItem(Long orderId, Long orderItemId);
 }
