@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/category")
+@RequestMapping("/api")
 public class CategoryController {
     private CategoryService categoryService;
     private BookService bookService;
 
     @PreAuthorize("has_Role('ROLE_ADMIN')")
-    @PostMapping("/create")
+    @PostMapping("/categories")
     public CategoryResponseDto createCategory(@RequestBody CreateCategoryRequestDto
                                                       categoryRequestDto) {
         return categoryService.save(categoryRequestDto);
@@ -34,34 +34,34 @@ public class CategoryController {
 
     @Operation(summary = "get all Category", description = "get all Category")
     @PreAuthorize("has_Role('ROLE_USER')")
-    @GetMapping("/getAllCategory")
+    @GetMapping("/categories")
     List<CategoryResponseDto> getAllCategory() {
         return categoryService.findAll();
     }
 
     @Operation(summary = "get Category by id", description = "get Category by id")
     @PreAuthorize("has_Role('ROLE_USER')")
-    @GetMapping("/categoryById/{id}")
+    @GetMapping("/categories/{id}")
     public CategoryResponseDto getCategoryById(@PathVariable Long id) {
         return categoryService.getById(id);
     }
 
     @PreAuthorize("has_Role('ROLE_ADMIN')")
-    @PutMapping("/update/{id}")
+    @PutMapping("/categories/{id}")
     public CategoryResponseDto updateCategory(@PathVariable Long id,
                                               @RequestBody CreateCategoryRequestDto categoryDto) {
         return categoryService.update(id, categoryDto);
     }
 
     @PreAuthorize("has_Role('ROLE_ADMIN')")
-    @DeleteMapping("/deleteCategory/{id}")
+    @DeleteMapping("/categories/{id}")
     public void deleteCategory(@PathVariable Long id) {
         categoryService.deleteById(id);
     }
 
     @Operation(summary = "get Book by Category id", description = "get Book by Category id")
     @PreAuthorize("has_Role('ROLE_USER')")
-    @GetMapping("/allBookByCategory/{id}")
+    @GetMapping("/categories/{id}")
     public List<BookDto> getBooksByCategoryId(@PathVariable Long id) {
         return bookService.findAllByCategoryId(id);
     }

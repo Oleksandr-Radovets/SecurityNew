@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/cart")
+@RequestMapping("/api")
 public class ShoppingCartController {
     private ShoppingCartService shoppingCartService;
 
@@ -34,13 +34,14 @@ public class ShoppingCartController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PutMapping("/cart/cart-items")
-    public ShoppingCartResponseDto updateShoppingCart(@RequestBody CartItemRequestDto requestDto) {
-        return shoppingCartService.update(requestDto.getCartItemId(), requestDto.getQuantity());
+    @PutMapping("/cart/cart-items/{cartItemId}")
+    public ShoppingCartResponseDto updateShoppingCart(@RequestBody CartItemRequestDto requestDto,
+                                                      @PathVariable Long cartItemId) {
+        return shoppingCartService.update(cartItemId, requestDto.getQuantity());
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @DeleteMapping("/api/cart/cart-items/{cartItemId}")
+    @DeleteMapping("/cart/cart-items/{cartItemId}")
     public void deleteCartItem(@PathVariable Long id) {
         shoppingCartService.deleteCartItemInShoppingCart(id);
     }
