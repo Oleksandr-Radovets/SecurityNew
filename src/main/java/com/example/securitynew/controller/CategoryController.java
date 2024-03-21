@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/categories")
 public class CategoryController {
     private final CategoryService categoryService;
     private final BookService bookService;
 
     @PreAuthorize("has_Role('ROLE_ADMIN')")
-    @PostMapping("/categories")
+    @PostMapping()
     public CategoryResponseDto createCategory(@RequestBody CreateCategoryRequestDto
                                                       categoryRequestDto) {
         return categoryService.save(categoryRequestDto);
@@ -34,27 +34,27 @@ public class CategoryController {
 
     @Operation(summary = "get all Category", description = "get all Category")
     @PreAuthorize("has_Role('ROLE_USER')")
-    @GetMapping("/categories")
+    @GetMapping()
     List<CategoryResponseDto> getAllCategory() {
         return categoryService.findAll();
     }
 
     @Operation(summary = "get Category by id", description = "get Category by id")
     @PreAuthorize("has_Role('ROLE_USER')")
-    @GetMapping("/categories/{id}")
+    @GetMapping("/{id}")
     public CategoryResponseDto getCategoryById(@PathVariable Long id) {
         return categoryService.getById(id);
     }
 
     @PreAuthorize("has_Role('ROLE_ADMIN')")
-    @PutMapping("/categories/{id}")
+    @PutMapping("{id}")
     public CategoryResponseDto updateCategory(@PathVariable Long id,
                                               @RequestBody CreateCategoryRequestDto categoryDto) {
         return categoryService.update(id, categoryDto);
     }
 
     @PreAuthorize("has_Role('ROLE_ADMIN')")
-    @DeleteMapping("/categories/{id}")
+    @DeleteMapping("/{id}")
     public void deleteCategory(@PathVariable Long id) {
         categoryService.deleteById(id);
     }
