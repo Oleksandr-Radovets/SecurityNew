@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class CategoryController {
-    private CategoryService categoryService;
-    private BookService bookService;
+    private final CategoryService categoryService;
+    private final BookService bookService;
 
     @PreAuthorize("has_Role('ROLE_ADMIN')")
     @PostMapping("/categories")
