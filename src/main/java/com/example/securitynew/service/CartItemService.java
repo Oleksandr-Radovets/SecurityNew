@@ -9,5 +9,4 @@ public interface CartItemService {
     CartItem saveCartItem(CartItem cartItem);
 
     CartItem cartItemFindById(Long id);
-
 }
