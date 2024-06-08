@@ -10,8 +10,7 @@
 
 ## Deployment
 
-- [![Docker Badge](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff&style=for-the-badge)]
-- (https://www.docker.com/)
+- [![Docker Badge](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff&style=for-the-badge)](https://www.docker.com/)
 
 - write the command in the terminal
 
@@ -23,7 +22,8 @@
 
 - Roles for run Docker container with MySQL:
 
-  [![](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
+  [![](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)]
+- (https://www.mysql.com/)
 
   container with apply migrations for backend.
 
